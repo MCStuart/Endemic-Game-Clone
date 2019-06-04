@@ -11,19 +11,19 @@ export class Game{
         this.infectionRateChangePause = 0;
         this.skills = { 
             report : { cost : 5, action : () => {} }, 
-            fieldLab : { cost : 6, action : () => {             infectionRateChangePause = 2;
+            fieldLab : { cost : 6, action : () => {             this.infectionRateChangePause += 2;
                 } },  
-            beginVaccineResearch : { cost : 10 }, 
-            finishVaccine : { cost : 17 }, 
-            administrateVaccine : { cost : 20 }, 
-            curfew : { cost : 3 }, 
-            travelRestriction : { cost : 4 },  
-            quarantine : { cost : 10 }, 
-            forcedVaccines : { cost : 12 }, 
-            bottledWater : { cost : 4 }, 
-            animalCulling : { cost : 6 }, 
-            martialLaw : { cost : 12 }, 
-            shootOnSight : { cost : 15 }
+            beginVaccineResearch : { cost : 10, action : () => {} }, 
+            finishVaccine : { cost : 17, action : () => {} }, 
+            administrateVaccine : { cost : 20, action : () => {} }, 
+            curfew : { cost : 3, action : () => {} }, 
+            travelRestriction : { cost : 4, action : () => {} },  
+            quarantine : { cost : 10, action : () => {} }, 
+            forcedVaccines : { cost : 12, action : () => {} }, 
+            bottledWater : { cost : 4, action : () => {} }, 
+            animalCulling : { cost : 6, action : () => {} }, 
+            martialLaw : { cost : 12, action : () => {} }, 
+            shootOnSight : { cost : 15, action : () => {} }
         };
         this.infectionRate = .1;
         this.toggle = function(name){
@@ -33,31 +33,41 @@ export class Game{
             if (this.skillpoints >= this.skills[skill].cost) {
                 this.skillpoints -= this.skills[skill].cost;
                 this.toggle(skill);
+                this.skills[skill].action();
             }
         }
         let start = Math.floor(Math.random()*5);
         switch(start){
             case 0:
                 this.population.N.Infected++;
+                this.population.N.Healthy--;
                 break;
             case 1:
                 this.population.NE.Infected++;
+                this.population.NE.Healthy--;
                 break;
             case 2:
                 this.population.NW.Infected++;
+                this.population.NW.Healthy--;
                 break;
             case 3:
                 this.population.SE.Infected++;
+                this.population.SE.Healthy--;
                 break;
             case 4:
                 this.population.SW.Infected++;
+                this.population.SW.Healthy--;
                 break; 
         }
     }
 
     tick(){
            this.skillpoints++;
-           this.infectionRate = parseFloat((this.infectionRate * this.infectionRateChange)); 
+           if (this.infectionRateChangePause > 0) {
+            this.infectionRateChangePause--;    
+           } else {
+           this.infectionRate = parseFloat((this.infectionRate * this.infectionRateChange));
+           }
     }
 
     rumor() {                       // Game Start

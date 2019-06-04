@@ -82,18 +82,34 @@ describe('Skill tree actions', function() {
       });
 
     test('Field Lab skill should pause infection rate increase for two ticks', () => {
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < 11; i++) {
             game.tick();
             if (i === 4) {
                 game.getSkill("report");
             }
         };
         game.getSkill("fieldLab");
+        console.log
         game.tick();
         game.tick();
         console.log(game.infectionRate)
-        let infectionRateAfterElevenTurns = parseFloat((0.1* 1.1**11))
-        expect(game.infectionRate).toEqual(infectionRateAfterElevenTurns)
-
+        let infectionRateAfterElevenTurns = parseFloat((0.1* game.infectionRateChange**11))
+        expect(game.infectionRate.toFixed(3)).toEqual(infectionRateAfterElevenTurns.toFixed(3))
+    });
+    test('Expect infection rate to resume after pause from skill activation', () => {
+        for (let i = 0; i < 11; i++) {
+            game.tick();
+            if (i === 4) {
+                game.getSkill("report");
+            }
+        };
+        game.getSkill("fieldLab");
+        console.log
+        game.tick();
+        game.tick();
+        game.tick();
+        console.log(game.infectionRate)
+        let infectionRateAfter14Turns = parseFloat((0.1* game.infectionRateChange**12))
+        expect(game.infectionRate.toFixed(3)).toEqual(infectionRateAfter14Turns.toFixed(3))
     });
 });
