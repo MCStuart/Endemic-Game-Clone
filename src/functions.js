@@ -9,11 +9,31 @@ export class Game{
         this.skillpoints = 0;
         this.skills = {};
         this.infectionRate = .1;
+        let start = Math.floor(Math.random()*5);
+        switch(start){
+            case 0:
+                this.population.N.Infected++;
+                break;
+            case 1:
+                this.population.NE.Infected++;
+                break;
+            case 2:
+                this.population.NW.Infected++;
+                break;
+            case 3:
+                this.population.SE.Infected++;
+                break;
+            case 4:
+                this.population.SW.Infected++;
+                break; 
+        }
     }
 
     tick(){
            this.skillpoints++;
            this.infectionRate = parseFloat((this.infectionRate * 1.1).toFixed(3)); 
     }
+
+
 }
 

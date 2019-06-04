@@ -23,4 +23,12 @@ describe('Game turn tick functions', function () {
         game.tick();
         expect(game.infectionRate).toEqual(.121);    
     });
+    test('One random quadrant is selected to start infection', () => {
+        let game = new Game("Jared");
+        expect(game.population.N.Infected + game.population.NE.Infected + game.population.NW.Infected + game.population.SE.Infected + game.population.SW.Infected).toEqual(1);
+       
+        expect().not.toEqual(0);
+        expect().not.toEqual(0);
+        expect().not.toEqual(0);    
+    });
 });
