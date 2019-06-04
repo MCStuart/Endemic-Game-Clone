@@ -109,3 +109,23 @@ describe('Skill tree actions', function() {
         expect(game.infectionRate.toFixed(3)).toEqual(infectionRateAfter14Turns.toFixed(3))
     });
 });
+
+describe('Infection and Mortality Rates', function() {
+
+    var game = new Game("Jared");
+
+    beforeEach(() => {
+        game = new Game("Jared")
+      });
+
+      test('every tick, more people should be infected', () => {
+        for (let i = 0; i < 20; i++) {
+            game.tick();
+            if (i === 4) {
+                game.getSkill("report");
+            }
+        };
+        console.log(game.population);
+        expect(game.population.N.Infected + game.population.NE.Infected + game.population.NW.Infected + game.population.SE.Infected + game.population.SW.Infected).not.toEqual(1);
+    });
+})

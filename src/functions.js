@@ -7,7 +7,7 @@ export class Game{
                            SE: {Healthy : 100, Infected : 0, Dead : 0, Immune: 0},
                            SW: {Healthy : 100, Infected : 0, Dead : 0, Immune: 0}, }
         this.skillpoints = 0;
-        this.infectionRateChange = 1.1;
+        this.infectionRateChange = 1.07;
         this.infectionRateChangePause = 0;
         this.infectionSpreadPause = 0;
         this.skills = { 
@@ -64,6 +64,28 @@ export class Game{
         }
     }
 
+    spread(){
+        let populationArray = Object.keys(this.population);
+        let pop = this;
+        
+        populationArray.forEach(function(x){
+         //console.log(pop.population[x]);
+            for(let i = 0; i < pop.population[x].Infected && i < pop.population[x].Healthy; i++){
+                if(Math.random() < pop.infectionRate){
+                    
+                    if((Math.random() * 10000) % 11 > 4){
+                        pop.population[x].Infected++;
+                        pop.population[x].Healthy--;
+                    } else {
+                        let district = Math.floor(Math.random() * 4);
+                        pop.population[populationArray[district]].Infected++;
+                        pop.population[populationArray[district]].Healthy--;
+                    }
+                }
+            }
+        })
+    }
+
     tick(){
            this.skillpoints++;
            if (this.infectionRateChangePause > 0) {
@@ -71,6 +93,7 @@ export class Game{
            } else {
            this.infectionRate = parseFloat((this.infectionRate * this.infectionRateChange));
            }
+           this.spread();
     }
 
     rumor() {                       // Game Start
