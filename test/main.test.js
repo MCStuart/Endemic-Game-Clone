@@ -131,9 +131,15 @@ describe('Infection and Mortality Rates', function() {
         expect(game.population.N.Infected + game.population.NE.Infected + game.population.NW.Infected + game.population.SE.Infected + game.population.SW.Infected).not.toEqual(1);
     });
     test('Disease will now have probability to kill', () => {
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 60; i++) {
             game.tick();
         };
         expect(game.population.N.Dead + game.population.NE.Dead + game.population.NW.Dead + game.population.SE.Dead + game.population.SW.Dead).not.toEqual(0);
     });
+})
+
+describe('Will get .gifs from giphy API', function() {
+    test('returns appropriate .gif for a selected skill', () => {
+        expect().toEqual();
+    })
 })
