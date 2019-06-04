@@ -89,10 +89,8 @@ describe('Skill tree actions', function() {
             }
         };
         game.getSkill("fieldLab");
-        console.log
         game.tick();
         game.tick();
-        console.log(game.infectionRate)
         let infectionRateAfterElevenTurns = parseFloat((0.1* game.infectionRateChange**11))
         expect(game.infectionRate.toFixed(3)).toEqual(infectionRateAfterElevenTurns.toFixed(3))
     });
@@ -104,11 +102,9 @@ describe('Skill tree actions', function() {
             }
         };
         game.getSkill("fieldLab");
-        console.log
         game.tick();
         game.tick();
         game.tick();
-        console.log(game.infectionRate)
         let infectionRateAfter14Turns = parseFloat((0.1* game.infectionRateChange**12))
         expect(game.infectionRate.toFixed(3)).toEqual(infectionRateAfter14Turns.toFixed(3))
     });

@@ -9,21 +9,24 @@ export class Game{
         this.skillpoints = 0;
         this.infectionRateChange = 1.1;
         this.infectionRateChangePause = 0;
+        this.infectionSpreadPause = 0;
         this.skills = { 
             report : { cost : 5, action : () => {} }, 
-            fieldLab : { cost : 6, action : () => {             this.infectionRateChangePause += 2;
+            fieldLab : { cost : 6, action : () => { this.infectionRateChangePause += 2;
                 } },  
-            beginVaccineResearch : { cost : 10, action : () => {} }, 
-            finishVaccine : { cost : 17, action : () => {} }, 
-            administrateVaccine : { cost : 20, action : () => {} }, 
-            curfew : { cost : 3, action : () => {} }, 
-            travelRestriction : { cost : 4, action : () => {} },  
-            quarantine : { cost : 10, action : () => {} }, 
+            beginVaccineResearch : { cost : 10, action : () => { this.infectionRateChangePause += 2;
+                } }, 
+            finishVaccine : { cost : 17, action : () => { this.infectionRateChangePause += 10;
+            } }, 
+            administrateVaccine : { cost : 20, action : () => { this.infectionRateChange = 0; this.infectionRate = 0; /* 5 people recover per turn, death rate still applies */} }, 
+            curfew : { cost : 3, action : () => { this.infectionSpreadPause += 4; } }, 
+            travelRestriction : { cost : 4, action : () => { this.infectionSpreadPause += 6; } },  
+            quarantine : { cost : 10, action : () => { this.infectionSpreadPause += 15; } }, 
             forcedVaccines : { cost : 12, action : () => {} }, 
-            bottledWater : { cost : 4, action : () => {} }, 
-            animalCulling : { cost : 6, action : () => {} }, 
-            martialLaw : { cost : 12, action : () => {} }, 
-            shootOnSight : { cost : 15, action : () => {} }
+            bottledWater : { cost : 4, action : () => { this.infectionRate *= .9; } }, 
+            animalCulling : { cost : 6, action : () => {this.infectionRateChange *= .85; /* needs causualty penalty */ } }, 
+            martialLaw : { cost : 12, action : () => {this.infectionRateChange *= .75; /* needs causualty penalty */} }, 
+            shootOnSight : { cost : 15, action : () => { this.infectionRateChange = 0; /* needs causualty penalty on just healthy population */} }
         };
         this.infectionRate = .1;
         this.toggle = function(name){
