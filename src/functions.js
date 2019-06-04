@@ -7,9 +7,12 @@ export class Game{
                            SE: {Healthy : 100, Infected : 0, Dead : 0, Immune: 0},
                            SW: {Healthy : 100, Infected : 0, Dead : 0, Immune: 0}, }
         this.skillpoints = 0;
+        this.infectionRateChange = 1.1;
+        this.infectionRateChangePause = 0;
         this.skills = { 
-            report : { cost : 5, action : () => {}}, 
-            fieldLab : { cost : 6 },  
+            report : { cost : 5, action : () => {} }, 
+            fieldLab : { cost : 6, action : () => {             infectionRateChangePause = 2;
+                } },  
             beginVaccineResearch : { cost : 10 }, 
             finishVaccine : { cost : 17 }, 
             administrateVaccine : { cost : 20 }, 
@@ -54,10 +57,10 @@ export class Game{
 
     tick(){
            this.skillpoints++;
-           this.infectionRate = parseFloat((this.infectionRate * 1.1).toFixed(3)); 
+           this.infectionRate = parseFloat((this.infectionRate * this.infectionRateChange)); 
     }
 
-    rumor() {
+    rumor() {                       // Game Start
         this.toggle("rumor");
         // return dialogue about start of disease
     }
