@@ -25,10 +25,14 @@ describe('Game turn tick functions', function () {
     });
     test('One random quadrant is selected to start infection', () => {
         let game = new Game("Jared");
-        expect(game.population.N.Infected + game.population.NE.Infected + game.population.NW.Infected + game.population.SE.Infected + game.population.SW.Infected).toEqual(1);
-       
-        expect().not.toEqual(0);
-        expect().not.toEqual(0);
-        expect().not.toEqual(0);    
+        expect(game.population.N.Infected + game.population.NE.Infected + game.population.NW.Infected + game.population.SE.Infected + game.population.SW.Infected).toEqual(1);   
+    });
+});
+
+describe('Skill tree actions', function() {
+    test('Can activate specific skill', () => {
+        let game = new Game("Jared");
+        game.rumor();
+        expect(game.skills["rumor"]).toEqual(true);    
     });
 });

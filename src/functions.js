@@ -9,6 +9,9 @@ export class Game{
         this.skillpoints = 0;
         this.skills = {};
         this.infectionRate = .1;
+        this.toggle = function(name){
+            this.skills[name] = true;
+        }
         let start = Math.floor(Math.random()*5);
         switch(start){
             case 0:
@@ -34,6 +37,34 @@ export class Game{
            this.infectionRate = parseFloat((this.infectionRate * 1.1).toFixed(3)); 
     }
 
+    rumor() {
+        this.toggle("rumor");
+        // return dialogue about start of disease
+    }
+
+    report() {}
+
+    fieldLab(){}
+
+    beginVacResearch(){}
+
+    finishVaccine(){}
+
+    curfew(){}
+
+    travelRestriction(){}
+
+    quarantine(){}
+
+    forcedVac(){}
+
+    bottledWater(){}
+
+    animalCulling(){}
+
+    martialLaw(){}
+
+    shootOnSight(){}
 
 }
 
