@@ -7,10 +7,30 @@ export class Game{
                            SE: {Healthy : 100, Infected : 0, Dead : 0, Immune: 0},
                            SW: {Healthy : 100, Infected : 0, Dead : 0, Immune: 0}, }
         this.skillpoints = 0;
-        this.skills = {};
+        this.skills = { 
+            report : { cost : 5, action : () => {}}, 
+            fieldLab : { cost : 6 },  
+            beginVaccineResearch : { cost : 10 }, 
+            finishVaccine : { cost : 17 }, 
+            administrateVaccine : { cost : 20 }, 
+            curfew : { cost : 3 }, 
+            travelRestriction : { cost : 4 },  
+            quarantine : { cost : 10 }, 
+            forcedVaccines : { cost : 12 }, 
+            bottledWater : { cost : 4 }, 
+            animalCulling : { cost : 6 }, 
+            martialLaw : { cost : 12 }, 
+            shootOnSight : { cost : 15 }
+        };
         this.infectionRate = .1;
         this.toggle = function(name){
-            this.skills[name] = true;
+            this.skills[name].cost = true;
+        }
+        this.getSkill = function(skill) {
+            if (this.skillpoints >= this.skills[skill].cost) {
+                this.skillpoints -= this.skills[skill].cost;
+                this.toggle(skill);
+            }
         }
         let start = Math.floor(Math.random()*5);
         switch(start){
@@ -41,30 +61,4 @@ export class Game{
         this.toggle("rumor");
         // return dialogue about start of disease
     }
-
-    report() {}
-
-    fieldLab(){}
-
-    beginVacResearch(){}
-
-    finishVaccine(){}
-
-    curfew(){}
-
-    travelRestriction(){}
-
-    quarantine(){}
-
-    forcedVac(){}
-
-    bottledWater(){}
-
-    animalCulling(){}
-
-    martialLaw(){}
-
-    shootOnSight(){}
-
 }
-

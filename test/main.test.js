@@ -30,9 +30,47 @@ describe('Game turn tick functions', function () {
 });
 
 describe('Skill tree actions', function() {
+    var game = new Game("Jared");
+    beforeEach(() => {
+        game = new Game("Jared")
+        game.skillpoints = 1000;
+      });
+
     test('Can activate specific skill', () => {
-        let game = new Game("Jared");
-        game.rumor();
-        expect(game.skills["rumor"]).toEqual(true);    
+        
+        game.getSkill("report");
+        expect(game.skills.report.cost).toEqual(true);    
     });
+    test('Can activate specific skill', () => {
+        
+        game.getSkill("quarantine");
+        expect(game.skills["quarantine"].cost).toEqual(true);    
+    });
+    test('Can activate and retain multiple skills', () => {
+       
+        game.getSkill("quarantine");
+        game.getSkill("report");
+        game.getSkill("finishVaccine");
+        console.log(game);
+        expect(game.skills.quarantine.cost && game.skills.report && game.skills["finishVaccine"].cost).toEqual(true);    
+    });
+    test('Skill wont activate if there are not enough points', () => {
+        game.skillpoints = 0;
+        game.tick();
+        game.tick();
+        game.tick();
+        game.tick();
+        game.getSkill("report");
+        expect(game.skillpoints).toEqual(4);    
+    }); 
+    test('Activating skill reduces skillpoints', () => {
+        game.skillpoints = 0;
+        game.tick();
+        game.tick();
+        game.tick();
+        game.tick();
+        game.tick();
+        game.getSkill("report");
+        expect(game.skillpoints).toEqual(0);    
+    });   
 });
