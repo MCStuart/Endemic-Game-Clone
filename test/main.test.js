@@ -14,14 +14,16 @@ describe('Game turn tick functions', function () {
     });
     test('Infection rate to increase', () => {
         let game = new Game("Jared");
+        let expectedRate = game.infectionRate * game.infectionRateChange;
         game.tick();
-        expect(game.infectionRate).toEqual(.11000000000000001);    
+        expect(game.infectionRate).toEqual(expectedRate);    
     });
     test('Infection rate increase turn after turn', () => {
         let game = new Game("Jared");
+        let expectedRate = game.infectionRate * game.infectionRateChange ** 2;
         game.tick();
         game.tick();
-        expect(game.infectionRate).toEqual(.12100000000000002);    
+        expect(game.infectionRate.toFixed(3)).toEqual(expectedRate.toFixed(3));    
     });
     test('One random quadrant is selected to start infection', () => {
         let game = new Game("Jared");
@@ -127,5 +129,11 @@ describe('Infection and Mortality Rates', function() {
         };
         console.log(game.population);
         expect(game.population.N.Infected + game.population.NE.Infected + game.population.NW.Infected + game.population.SE.Infected + game.population.SW.Infected).not.toEqual(1);
+    });
+    test('Disease will now have probability to kill', () => {
+        for (let i = 0; i < 40; i++) {
+            game.tick();
+        };
+        expect(game.population.N.Dead + game.population.NE.Dead + game.population.NW.Dead + game.population.SE.Dead + game.population.SW.Dead).not.toEqual(0);
     });
 })

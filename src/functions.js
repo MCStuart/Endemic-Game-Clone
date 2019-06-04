@@ -7,6 +7,7 @@ export class Game{
                            SE: {Healthy : 100, Infected : 0, Dead : 0, Immune: 0},
                            SW: {Healthy : 100, Infected : 0, Dead : 0, Immune: 0}, }
         this.skillpoints = 0;
+        this.mortalityRate = -.2;
         this.infectionRateChange = 1.07;
         this.infectionRateChangePause = 0;
         this.infectionSpreadPause = 0;
@@ -69,17 +70,18 @@ export class Game{
         let pop = this;
         
         populationArray.forEach(function(x){
-         //console.log(pop.population[x]);
             for(let i = 0; i < pop.population[x].Infected && i < pop.population[x].Healthy; i++){
-                if(Math.random() < pop.infectionRate){
-                    
+                if(Math.random() < pop.infectionRate && pop.population[x].Healthy > 0) {
                     if((Math.random() * 10000) % 11 > 4){
                         pop.population[x].Infected++;
                         pop.population[x].Healthy--;
                     } else {
-                        let district = Math.floor(Math.random() * 4);
-                        pop.population[populationArray[district]].Infected++;
-                        pop.population[populationArray[district]].Healthy--;
+                        let district = Math.floor(Math.random() * 5);
+                        if(pop.population[populationArray[district]].Healthy > 0){
+
+                            pop.population[populationArray[district]].Infected++;
+                            pop.population[populationArray[district]].Healthy--;
+                        }
                     }
                 }
             }
@@ -87,16 +89,28 @@ export class Game{
     }
 
     tick(){
-           this.skillpoints++;
-           if (this.infectionRateChangePause > 0) {
-            this.infectionRateChangePause--;    
-           } else {
-           this.infectionRate = parseFloat((this.infectionRate * this.infectionRateChange));
-           }
-           this.spread();
+        this.skillpoints++;
+        if (this.infectionRateChangePause > 0) {
+        this.infectionRateChangePause--;    
+        } else {
+            this.infectionRate = parseFloat((this.infectionRate * this.infectionRateChange));
+        }
+        this.spread();
+        
+        let populationArray = Object.keys(this.population);
+        let pop = this;
+        populationArray.forEach(function(x){
+            for(let i = 0; i < pop.population[x].Infected; i++){
+                if(Math.random() < pop.mortalityRate && pop.population[x].Infected > 0) {
+                        pop.population[x].Infected--;
+                        pop.population[x].Dead++;
+                }
+            }
+        })
+        this.mortalityRate += .015;
     }
 
-    rumor() {                       // Game Start
+    rumor() {  // Game Start
         this.toggle("rumor");
         // return dialogue about start of disease
     }
